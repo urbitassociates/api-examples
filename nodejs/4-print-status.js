@@ -19,8 +19,6 @@ const printStatus = async (headers, cartReference) => {
   console.log("  Delivery time:", deliveryInformation.delivery_time);
   console.log("  Status:", deliveryInformation.status);
   console.log("  Order reference id:", deliveryInformation.order_reference_id);
-
-  return cartReference;
 };
 
 module.exports = printStatus;

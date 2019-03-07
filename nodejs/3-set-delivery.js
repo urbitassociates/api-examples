@@ -31,8 +31,6 @@ const setDelivery = async (headers, checkoutReference) => {
   throwIfNotOk(response);
 
   console.log("> Done!\n");
-
-  return body;
 };
 
 const addMinutes = (date, minutes) =>
