@@ -1,0 +1,22 @@
+{
+  "name": "api-sample-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "env": "cp .env.template .env",
+    "env-win": "copy .env.template .env",
+    "lint": "./node_modules/.bin/eslint --fix *.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4"
+  }
+}
