@@ -132,8 +132,7 @@ namespace UrbitDeliveryAPI
         private async Task PrintStatus(Guid cartReference)
         {
             Console.WriteLine("Get delivery status...");
-
-
+            
             var response =
                 await client.GetAsync($"https://sandbox.urb-it.com/v2/checkouts/{cartReference}");
             if (!response.IsSuccessStatusCode)
