@@ -35,7 +35,6 @@ namespace UrbitDeliveryAPI
             client.DefaultRequestHeaders.Add("Authorization", authorization);
             client.DefaultRequestHeaders.Add("X-Api-Key", xApiKey);
         }
-
         public async Task Start()
         {
             Console.WriteLine("\nCreating delivery:\n");
@@ -73,7 +72,6 @@ namespace UrbitDeliveryAPI
 
             var body = GetObjectAsJsonString(data);
             var response = await client.PostAsync("https://sandbox.urb-it.com/v2/carts", body);
-            await ThrowIfNotSuccessful(response);
 
             var json = await GetJsonObject(response);
             var cartReference = Guid.Parse(json.SelectToken("id").Value<string>());
@@ -81,16 +79,6 @@ namespace UrbitDeliveryAPI
             Console.WriteLine($"> Done! Cart Reference: {cartReference}\n");
             return cartReference;
         }
-
-        private static async Task ThrowIfNotSuccessful(HttpResponseMessage response)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                string errorBody = await response.Content.ReadAsStringAsync();
-                throw new ArgumentException(errorBody);
-            }
-        }
-
         private async Task<Guid> InitCheckout(Guid cartReference)
         {
             Console.WriteLine("Init checkout...");
@@ -102,7 +90,6 @@ namespace UrbitDeliveryAPI
 
             var body = GetObjectAsJsonString(data);
             var response = await client.PostAsync("https://sandbox.urb-it.com/v2/checkouts", body);
-            await ThrowIfNotSuccessful(response);
 
             var json = await GetJsonObject(response);
             var checkoutId = Guid.Parse(json.SelectToken("id").Value<string>());
@@ -138,7 +125,6 @@ namespace UrbitDeliveryAPI
             var body = GetObjectAsJsonString(data);
             var response =
                 await client.PutAsync($"https://sandbox.urb-it.com/v2/checkouts/{checkoutId}/delivery", body);
-            await ThrowIfNotSuccessful(response);
 
             Console.WriteLine("> Done!\n");
         }
@@ -168,13 +154,11 @@ namespace UrbitDeliveryAPI
             Console.WriteLine($"  Order reference id: {orderReferenceId}\n");
         }
 
-
         private static async Task<JObject> GetJsonObject(HttpResponseMessage response)
         {
             string responseBody = await response.Content.ReadAsStringAsync();
             return JObject.Parse(responseBody);
         }
-
         private static StringContent GetObjectAsJsonString(object data)
         {
             var payload = Newtonsoft.Json.JsonConvert.SerializeObject(data);
