@@ -4,4 +4,4 @@
 2. Update Auth and X-Api-Key
 3. Run the app
 
-This code expect a slot schedule to have be setup by Urb-it. Please contact Urb-it for more information.
+This code expect a slot schedule to have been setup by Urb-it. Please contact Urb-it for more information.
