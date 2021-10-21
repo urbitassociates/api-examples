@@ -5,7 +5,7 @@ const initCheckout = async (headers, cartReference) => {
   console.log("Init checkout...");
 
   const body = {
-    cart_reference: cartReference
+    cart_reference: cartReference,
   };
 
   const url = "https://sandbox.urb-it.com/v2/checkouts";
@@ -13,10 +13,10 @@ const initCheckout = async (headers, cartReference) => {
   const response = await fetch(url, {
     method: "post",
     body: JSON.stringify(body),
-    headers: headers
+    headers: headers,
   });
 
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 
   const checkoutId = (await response.json()).id;
 

@@ -1,11 +1,11 @@
-const throwIfNotOk = response => {
+const throwIfNotOk = async (response) => {
   if (response.ok) return;
 
-  return response.json().then(body => {
-    console.error("Error!", response, body);
-  });
+  const body = await response.json();
+  console.error("Error", response.status, body);
+  throw new Error("Error calling API");
 };
 
 module.exports = {
-  throwIfNotOk
+  throwIfNotOk,
 };

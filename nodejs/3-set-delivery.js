@@ -16,8 +16,8 @@ const setDelivery = async (headers, checkoutReference) => {
       city: "Paris",
       postcode: "75007",
       phone_number: "+46000000000",
-      email: "no-reply@urbit.com"
-    }
+      email: "no-reply@urbit.com",
+    },
   };
 
   const url = `https://sandbox.urb-it.com/v2/checkouts/${checkoutReference}/delivery`;
@@ -25,10 +25,10 @@ const setDelivery = async (headers, checkoutReference) => {
   const response = await fetch(url, {
     method: "put",
     body: JSON.stringify(body),
-    headers: headers
+    headers: headers,
   });
 
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 
   console.log("> Done!\n");
 };

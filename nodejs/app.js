@@ -9,8 +9,10 @@ const createDelivery = async () => {
   const headers = {
     "X-Api-Key": process.env.X_API_KEY,
     Authorization: process.env.AUTHORIZATION,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   };
+
+  console.log("Headers", headers, "\n");
 
   // 1. Create cart - https://developer.urb-it.com/#operation/createCart
   const cartReference = await createCart(headers);
