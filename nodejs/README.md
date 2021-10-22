@@ -19,7 +19,7 @@ Urb-it Delivery API Documentation: http://developer.urb-it.com
 
 1. A contract with Urb-it (support@urbit.com)
 1. API Key and Auth Token (this will be given to you by you sales representative)
-1. NodeJS and Yarn
+1. NodeJS (16+) and Yarn
 
 ## Installation
 

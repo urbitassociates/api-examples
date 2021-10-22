@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const { throwIfNotOk } = require("./response-error");
+import fetch from "node-fetch";
+import { throwIfNotOk } from "./response-error.js";
 
 const createCart = async (headers) => {
   console.log("Create cart...");
@@ -32,4 +32,4 @@ const createCart = async (headers) => {
   return cartReference;
 };
 
-module.exports = createCart;
+export default createCart;

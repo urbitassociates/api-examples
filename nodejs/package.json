@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "env": "cp .env.template .env",
     "env-win": "copy .env.template .env",
@@ -10,13 +11,13 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "dotenv": "^8.1.0",
-    "node-fetch": "^2.6.1"
+    "dotenv": "^10.0.0",
+    "node-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.16.4"
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
   }
 }
