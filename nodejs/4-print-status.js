@@ -8,10 +8,10 @@ const printStatus = async (headers, cartReference) => {
 
   const response = await fetch(url, {
     method: "get",
-    headers: headers
+    headers: headers,
   });
 
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 
   const deliveryInformation = await response.json();
 
