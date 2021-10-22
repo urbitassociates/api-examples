@@ -1,7 +1,8 @@
-const createCart = require("./1-create-cart");
-const initCheckout = require("./2-init-checkout");
-const setDelivery = require("./3-set-delivery");
-const printStatus = require("./4-print-status");
+import createCart from "./1-create-cart.js";
+import initCheckout from "./2-init-checkout.js";
+import setDelivery from "./3-set-delivery.js";
+import printStatus from "./4-print-status.js";
+import dotenv from "dotenv";
 
 const createDelivery = async () => {
   console.log("\nCreating delivery 📦:\n");
@@ -30,7 +31,7 @@ const createDelivery = async () => {
 };
 
 (async () => {
-  require("dotenv").config();
+  dotenv.config();
 
   if (!process.env.X_API_KEY || !process.env.AUTHORIZATION) {
     console.error(

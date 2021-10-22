@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const { throwIfNotOk } = require("./response-error");
+import fetch from "node-fetch";
+import { throwIfNotOk } from "./response-error.js";
 
 const printStatus = async (headers, cartReference) => {
   console.log("Get delivery status...");
@@ -21,4 +21,4 @@ const printStatus = async (headers, cartReference) => {
   console.log("  Order reference id:", deliveryInformation.order_reference_id);
 };
 
-module.exports = printStatus;
+export default printStatus;

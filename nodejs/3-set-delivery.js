@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const { throwIfNotOk } = require("./response-error");
+import fetch from "node-fetch";
+import { throwIfNotOk } from "./response-error.js";
 
 const setDelivery = async (headers, checkoutReference) => {
   console.log("Set delivery");
@@ -36,4 +36,4 @@ const setDelivery = async (headers, checkoutReference) => {
 const addMinutes = (date, minutes) =>
   new Date(date.getTime() + minutes * 60000);
 
-module.exports = setDelivery;
+export default setDelivery;

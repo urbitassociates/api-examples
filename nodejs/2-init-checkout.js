@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const { throwIfNotOk } = require("./response-error");
+import fetch from "node-fetch";
+import { throwIfNotOk } from "./response-error.js";
 
 const initCheckout = async (headers, cartReference) => {
   console.log("Init checkout...");
@@ -24,4 +24,4 @@ const initCheckout = async (headers, cartReference) => {
   return checkoutId;
 };
 
-module.exports = initCheckout;
+export default initCheckout;
