@@ -65,16 +65,16 @@ namespace UrbitDeliveryAPI
             var response = await client.GetAsync("https://sandbox.urb-it.com/v2/slots");
             var json = await GetJsonObject(response);
 
-            var slots = (JArray) json.SelectToken("items");
+            var slots = json.GetValue("items").Value<JArray>();
 
             foreach (JObject slot in slots)
             {
-                var available = (bool)slot.GetValue("available");
+                var available = slot.GetValue("available").Value<bool>();
 
                 if (available)
                 {
-                    var slotStart = ((DateTime)slot.GetValue("delivery_time")).ToString("o"); // Zulu Time
-                    var slotEnds = ((DateTime)slot.GetValue("max_delivery_time")).ToString("o"); // Zulu Time
+                    var slotStart = slot.GetValue("delivery_time").Value<DateTime>().ToString("o"); // Zulu Time
+                    var slotEnds = slot.GetValue("max_delivery_time").Value<DateTime>().ToString("o"); // Zulu Time
 
                     Console.WriteLine($"> Done! Slot: {slotStart} - {slotEnds}\n");
 
@@ -121,7 +121,7 @@ namespace UrbitDeliveryAPI
             if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var json = await GetJsonObject(response);
-            var cartReference = Guid.Parse(json.SelectToken("id").Value<string>());
+            var cartReference = Guid.Parse(json.GetValue("id").Value<string>());
 
             Console.WriteLine($"> Done! Cart Reference: {cartReference}\n");
             return cartReference;
@@ -142,7 +142,7 @@ namespace UrbitDeliveryAPI
             if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var json = await GetJsonObject(response);
-            var checkoutId = Guid.Parse(json.SelectToken("id").Value<string>());
+            var checkoutId = Guid.Parse(json.GetValue("id").Value<string>());
 
             Console.WriteLine($"> Done! Checkout Id: {checkoutId}\n");
             return checkoutId;
@@ -194,8 +194,8 @@ namespace UrbitDeliveryAPI
             if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var json = await GetJsonObject(response);
-            var status = json.SelectToken("status").Value<string>();
-            var trackingNumber = json.SelectToken("tracking_number").Value<string>();
+            var status = json.GetValue("status").Value<string>();
+            var trackingNumber = json.GetValue("tracking_number").Value<string>();
 
             Console.WriteLine("> Done!");
 
