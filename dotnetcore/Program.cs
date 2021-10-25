@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -35,6 +38,7 @@ namespace UrbitDeliveryAPI
             client.DefaultRequestHeaders.Add("Authorization", authorization);
             client.DefaultRequestHeaders.Add("X-Api-Key", xApiKey);
         }
+
         public async Task Start()
         {
             Console.WriteLine("\nCreating delivery:\n");
@@ -43,11 +47,42 @@ namespace UrbitDeliveryAPI
 
             var checkoutId = await InitCheckout(cartReference);
 
-            await SetDelivery(checkoutId);
+            var deliverySlot = await GetFirstAvailableDeliverySlot();
+
+            await SetDelivery(checkoutId, deliverySlot);
 
             await PrintStatus(cartReference);
 
+            await ShippingLabel(cartReference);
+
             Console.WriteLine("\nDelivery created!\n");
+        }
+
+        private async Task<Tuple<string, string>> GetFirstAvailableDeliverySlot()
+        {
+            Console.WriteLine("Get first available delivery slot...");
+
+            var response = await client.GetAsync("https://sandbox.urb-it.com/v2/slots");
+            var json = await GetJsonObject(response);
+
+            var slots = json.GetValue("items").Value<JArray>();
+
+            foreach (JObject slot in slots)
+            {
+                var available = slot.GetValue("available").Value<bool>();
+
+                if (available)
+                {
+                    var slotStart = slot.GetValue("delivery_time").Value<DateTime>().ToString("o"); // Zulu Time
+                    var slotEnds = slot.GetValue("max_delivery_time").Value<DateTime>().ToString("o"); // Zulu Time
+
+                    Console.WriteLine($"> Done! Slot: {slotStart} - {slotEnds}\n");
+
+                    return new Tuple<string, string>(slotStart, slotEnds);
+                }
+            }
+
+            throw new ArgumentException("Error, can't find any slots. Contact Urb-it");
         }
 
         private async Task<Guid> CreateCart()
@@ -61,24 +96,37 @@ namespace UrbitDeliveryAPI
                     new
                     {
                         sku = "sku-cnt1",
-                        name = "TestProdcut1",
-                        image = "https://picsum.photos/200/200",
-                        vat = 2000,
-                        price = 3000,
-                        quantity = 5
+                        name = "Parcel, 10x50x20, 0.5kg", // Length x Width x Height in cm, weight in kg
+                        vat = 0,
+                        price = 0,
+                        quantity = 1
                     }
-                }
+                },
+                pickup_location = new
+                {
+                    name = "Partner name",
+                    address_1 = "1 Avenue Rapp",
+                    address_2 = "Optional extra address information",
+                    city = "Paris",
+                    postcode = "75007",
+                    phone_number = "+330000000",
+                    message = "Hints that will make the pickup easier"
+                },
+                order_reference_id = "optional-partner-reference-to-package"
             };
 
             var body = GetObjectAsJsonString(data);
             var response = await client.PostAsync("https://sandbox.urb-it.com/v2/carts", body);
 
+            if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
+
             var json = await GetJsonObject(response);
-            var cartReference = Guid.Parse(json.SelectToken("id").Value<string>());
+            var cartReference = Guid.Parse(json.GetValue("id").Value<string>());
 
             Console.WriteLine($"> Done! Cart Reference: {cartReference}\n");
             return cartReference;
         }
+
         private async Task<Guid> InitCheckout(Guid cartReference)
         {
             Console.WriteLine("Init checkout...");
@@ -89,21 +137,23 @@ namespace UrbitDeliveryAPI
             };
 
             var body = GetObjectAsJsonString(data);
-            var response = await client.PostAsync("https://sandbox.urb-it.com/v2/checkouts", body);
+            var response = await client.PostAsync("https://sandbox.urb-it.com/v3/checkouts", body);
+
+            if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var json = await GetJsonObject(response);
-            var checkoutId = Guid.Parse(json.SelectToken("id").Value<string>());
+            var checkoutId = Guid.Parse(json.GetValue("id").Value<string>());
 
             Console.WriteLine($"> Done! Checkout Id: {checkoutId}\n");
             return checkoutId;
         }
 
-        private async Task SetDelivery(Guid checkoutId)
+        private async Task SetDelivery(Guid checkoutId, Tuple<string, string> deliverySlot)
         {
             Console.WriteLine("Set delivery");
 
-            var slotStart = DateTime.Now.AddDays(7).ToString("yyy-MM-dd") + "T04:00:00Z";
-            var slotEnds = DateTime.Now.AddDays(7).ToString("yyy-MM-dd") + "T05:00:00Z";
+            var slotStart = deliverySlot.Item1;
+            var slotEnds = deliverySlot.Item2;
 
             var data = new
             {
@@ -124,7 +174,12 @@ namespace UrbitDeliveryAPI
 
             var body = GetObjectAsJsonString(data);
             var response =
-                await client.PutAsync($"https://sandbox.urb-it.com/v2/checkouts/{checkoutId}/delivery", body);
+                await client.PutAsync($"https://sandbox.urb-it.com/v3/checkouts/{checkoutId}/delivery", body);
+
+            if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
+
+            var trackingNumber = response.Headers.GetValues("X-Tracking-Number").FirstOrDefault();
+            Console.WriteLine($"  Urb-it Tracking Number: {trackingNumber}\n");
 
             Console.WriteLine("> Done!\n");
         }
@@ -132,25 +187,52 @@ namespace UrbitDeliveryAPI
         private async Task PrintStatus(Guid cartReference)
         {
             Console.WriteLine("Get delivery status...");
-            
+
             var response =
-                await client.GetAsync($"https://sandbox.urb-it.com/v2/checkouts/{cartReference}");
-            if (!response.IsSuccessStatusCode)
-            {
-                string errorBody = await response.Content.ReadAsStringAsync();
-                throw new ArgumentException(errorBody);
-            }
+                await client.GetAsync($"https://sandbox.urb-it.com/v3/checkouts/{cartReference}");
+
+            if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var json = await GetJsonObject(response);
-            var deliveryTime = json.SelectToken("delivery_time").Value<string>();
-            var status = json.SelectToken("status").Value<string>();
-            var orderReferenceId = json.SelectToken("order_reference_id").Value<string>();
+            var status = json.GetValue("status").Value<string>();
+            var trackingNumber = json.GetValue("tracking_number").Value<string>();
 
             Console.WriteLine("> Done!");
 
-            Console.WriteLine($"  Delivery time: {deliveryTime}");
-            Console.WriteLine($"  Status: {status}");
-            Console.WriteLine($"  Order reference id: {orderReferenceId}\n");
+            Console.WriteLine($"  Urb-it Tracking Number: {trackingNumber}");
+            Console.WriteLine($"  Status: {status}\n");
+        }
+
+        private async Task ShippingLabel(Guid cartReference)
+        {
+            Console.WriteLine("Get shipping label...");
+            
+            for (int numberOfTries = 0; numberOfTries < 3; numberOfTries++)
+            {
+                var response =
+                    await client.GetAsync($"https://sandbox.urb-it.com/v3/checkouts/{cartReference}/shipping-label");
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // The label process is async, sometimes it's a couple of seconds delay before the delivery is ready
+                    Console.WriteLine("> Trying again");
+                    Thread.Sleep(2000);
+                    continue;
+                }
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new ArgumentException("Error!" + response.StatusCode);
+                }
+
+                string zpl = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine("> Done!");
+                Console.WriteLine($"  ZPL: {zpl.Substring(0, 3)}...");
+                return;
+            }
+
+            throw new ArgumentException("Error! Can't get shipping label. Contact Urb-it support");
         }
 
         private static async Task<JObject> GetJsonObject(HttpResponseMessage response)
@@ -158,6 +240,7 @@ namespace UrbitDeliveryAPI
             string responseBody = await response.Content.ReadAsStringAsync();
             return JObject.Parse(responseBody);
         }
+
         private static StringContent GetObjectAsJsonString(object data)
         {
             var payload = Newtonsoft.Json.JsonConvert.SerializeObject(data);
