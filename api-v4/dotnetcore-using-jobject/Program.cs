@@ -57,7 +57,6 @@ namespace Sample
         private async Task<Tuple<string, string[]>> CreateShipment()
         {
             // https://urb-it.dev/docs/v4/7d4fb4abf29e2-create-shipment-with-deliveries
-            
             var data = new
             {
                 client_id = clientId,
@@ -136,8 +135,7 @@ namespace Sample
                     in_person_delivery_required = false
                 },
             };
-
-
+            
             var body = GetObjectAsJsonString(data);
             var response = await httpClient.PostAsync("https://sandbox.urb-it.com/v4/shipments", body);
 
@@ -155,7 +153,6 @@ namespace Sample
         private async Task ShippingLabel(string trackingNumber)
         {
             // https://urb-it.dev/docs/v4/51a1dcc0a0888-fetch-shipping-label-for-delivery
-
             var response =
                 await httpClient.GetAsync($"https://sandbox.urb-it.com/v4/deliveries/{trackingNumber}/shipping-label");
 
