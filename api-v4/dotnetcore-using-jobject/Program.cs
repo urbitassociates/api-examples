@@ -49,7 +49,7 @@ namespace Sample
             Console.WriteLine("\nGet shipping label...");
             await ShippingLabel(trackingNumber);
             Console.WriteLine(">> Done!");
-            Console.WriteLine(">> pdf save in current folder");
+            Console.WriteLine(">> Pdf saved in current folder");
 
             Console.WriteLine("\nDone");
         }
@@ -63,8 +63,8 @@ namespace Sample
                 service_type = "NEXT_DAY_DELIVERY",
                 reference_id = new
                 {
-                    description = "order ID",
-                    data = "POSTMAN-1653920631",
+                    description = "Order Id",
+                    data = "1653920631",
                 },
 
                 deliveries = new[]
@@ -80,8 +80,8 @@ namespace Sample
                         },
                         reference_id = new
                         {
-                            description = "parcel ID",
-                            data = "Parcel-1653920631"
+                            description = "Parcel Id",
+                            data = "132213213213"
                         }
                     }
                 },
@@ -90,7 +90,6 @@ namespace Sample
                 {
                     address = new
                     {
-                        name = "John Doe",
                         address_1 = "132 Commercial Street",
                         postcode = "E1 6AZ",
                         city = "London",
@@ -98,7 +97,7 @@ namespace Sample
                     },
                     contact = new
                     {
-                        name = "John Doe 2",
+                        name = "John Doe",
                         phone_number = "+46700000000",
                         email = "John.Doe@example.org"
                     }
@@ -108,7 +107,7 @@ namespace Sample
                 {
                     address = new
                     {
-                        name = "Jane Doe",
+                        name = "Acme Corp",
                         address_1 = "6 Fairclough Street",
                         postcode = "E1 1PW",
                         city = "London",
@@ -116,7 +115,7 @@ namespace Sample
                     },
                     contact = new
                     {
-                        name = "Jane Doe 2",
+                        name = "Jane Doe",
                         phone_number = "+46700000000",
                         email = "Jane.Doe@example.org"
                     },
@@ -125,14 +124,6 @@ namespace Sample
                         notes = "Lipsum",
                         door_code = "1234"
                     }
-                },
-                
-                additional_services = new
-                {
-                    signature_required = false,
-                    identity_check_required = false,
-                    minimum_age_requirement = 0,
-                    in_person_delivery_required = false
                 },
             };
             
@@ -147,7 +138,7 @@ namespace Sample
             var deliveries = json.GetValue("deliveries").Value<JArray>();
             var trackingNumber = deliveries[0].Value<JObject>().GetValue("tracking_number").Value<string>();
 
-            return new Tuple<string, string[]>(shipmentNumber, new[] { trackingNumber });
+            return new (shipmentNumber, new[] { trackingNumber });
         }
 
         private async Task ShippingLabel(string trackingNumber)
