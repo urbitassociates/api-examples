@@ -17,8 +17,6 @@ const getShippingLabel = async (authorization, trackingNumber) => {
 
   var zpl = await response.text();
   fs.writeFileSync(`./${trackingNumber}.zpl`, zpl);
-
-  return;
 };
 
 export default getShippingLabel;
