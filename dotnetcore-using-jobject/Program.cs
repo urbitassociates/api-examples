@@ -64,7 +64,7 @@ namespace Sample
                 reference_id = new
                 {
                     description = "Order Id",
-                    data = "1653920631",
+                    data = "SampleCode1337",
                 },
 
                 deliveries = new[]
@@ -81,7 +81,7 @@ namespace Sample
                         reference_id = new
                         {
                             description = "Parcel Id",
-                            data = "132213213213"
+                            data = "SampleCode1337-01"
                         }
                     }
                 },

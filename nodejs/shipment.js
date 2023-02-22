@@ -6,7 +6,7 @@ const createShipment = async (authorization, clientId) => {
     service_type: "NEXT_DAY_DELIVERY",
     reference_id: {
       description: "Order Id",
-      data: "1653920631",
+      data: "SampleCode1337",
     },
 
     deliveries: [
@@ -19,7 +19,7 @@ const createShipment = async (authorization, clientId) => {
         },
         reference_id: {
           description: "Parcel Id",
-          data: "132213213213",
+          data: "SampleCode1337-01",
         },
       },
     ],
