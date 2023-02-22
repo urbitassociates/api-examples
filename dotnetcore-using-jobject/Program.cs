@@ -31,27 +31,27 @@ namespace Sample
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Authorization", authorization);
-            
+
             // This id you will get from Urb-it
             clientId = configuration.GetValue<string>("clientId");
         }
 
         public async Task Start()
         {
-            Console.WriteLine("\nCreate delivery");
+            Console.WriteLine("\nCreate delivery 📦");
             var shipmentInformation = await CreateShipment();
             var shipmentNumber = shipmentInformation.Item1;
             var trackingNumber = shipmentInformation.Item2[0];
-            Console.WriteLine(">> Done!");
+            Console.WriteLine(">> Done! 🌟");
             Console.WriteLine($">> shipment_number: {shipmentNumber}");
             Console.WriteLine($">> tracking_number: {trackingNumber}");
 
-            Console.WriteLine("\nGet shipping label...");
+            Console.WriteLine("\nGet shipping label 🏷️");
             await ShippingLabel(trackingNumber);
-            Console.WriteLine(">> Done!");
-            Console.WriteLine(">> Pdf saved in current folder");
+            Console.WriteLine(">> Done! 🌟");
+            Console.WriteLine(">> zpl saved in current folder");
 
-            Console.WriteLine("\nDone");
+            Console.WriteLine("\nBye bye");
         }
 
         private async Task<Tuple<string, string[]>> CreateShipment()
@@ -126,7 +126,7 @@ namespace Sample
                     }
                 },
             };
-            
+
             var body = GetObjectAsJsonString(data);
             var response = await httpClient.PostAsync("https://sandbox.urb-it.com/v4/shipments", body);
 
@@ -150,7 +150,7 @@ namespace Sample
             if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var output = await response.Content.ReadAsByteArrayAsync();
-            var path = trackingNumber + ".pdf";
+            var path = trackingNumber + ".zpl";
             await File.WriteAllBytesAsync(path, output);
         }
 
