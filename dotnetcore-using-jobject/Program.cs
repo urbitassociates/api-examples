@@ -31,32 +31,31 @@ namespace Sample
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Authorization", authorization);
-            
+
             // This id you will get from Urb-it
             clientId = configuration.GetValue<string>("clientId");
         }
 
         public async Task Start()
         {
-            Console.WriteLine("\nCreate delivery");
+            Console.WriteLine("\nCreate delivery 📦");
             var shipmentInformation = await CreateShipment();
             var shipmentNumber = shipmentInformation.Item1;
             var trackingNumber = shipmentInformation.Item2[0];
-            Console.WriteLine(">> Done!");
+            Console.WriteLine(">> Done! 🌟");
             Console.WriteLine($">> shipment_number: {shipmentNumber}");
             Console.WriteLine($">> tracking_number: {trackingNumber}");
 
-            Console.WriteLine("\nGet shipping label...");
+            Console.WriteLine("\nGet shipping label 🏷️");
             await ShippingLabel(trackingNumber);
-            Console.WriteLine(">> Done!");
-            Console.WriteLine(">> Pdf saved in current folder");
+            Console.WriteLine(">> Done! 🌟");
+            Console.WriteLine(">> zpl saved in current folder");
 
-            Console.WriteLine("\nDone");
+            Console.WriteLine("\nBye bye");
         }
 
         private async Task<Tuple<string, string[]>> CreateShipment()
         {
-            // https://urb-it.dev/docs/v4/7d4fb4abf29e2-create-shipment-with-deliveries
             var data = new
             {
                 client_id = clientId,
@@ -64,7 +63,7 @@ namespace Sample
                 reference_id = new
                 {
                     description = "Order Id",
-                    data = "1653920631",
+                    data = "SampleCode1337",
                 },
 
                 deliveries = new[]
@@ -81,7 +80,7 @@ namespace Sample
                         reference_id = new
                         {
                             description = "Parcel Id",
-                            data = "132213213213"
+                            data = "SampleCode1337-01"
                         }
                     }
                 },
@@ -126,7 +125,7 @@ namespace Sample
                     }
                 },
             };
-            
+
             var body = GetObjectAsJsonString(data);
             var response = await httpClient.PostAsync("https://sandbox.urb-it.com/v4/shipments", body);
 
@@ -143,14 +142,13 @@ namespace Sample
 
         private async Task ShippingLabel(string trackingNumber)
         {
-            // https://urb-it.dev/docs/v4/51a1dcc0a0888-fetch-shipping-label-for-delivery
             var response =
                 await httpClient.GetAsync($"https://sandbox.urb-it.com/v4/deliveries/{trackingNumber}/shipping-label");
 
             if (!response.IsSuccessStatusCode) throw new ArgumentException("Error! " + response.StatusCode);
 
             var output = await response.Content.ReadAsByteArrayAsync();
-            var path = trackingNumber + ".pdf";
+            var path = trackingNumber + ".zpl";
             await File.WriteAllBytesAsync(path, output);
         }
 
