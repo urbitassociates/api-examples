@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import fs from "fs";
 
-const getShippingLabel = async (authorization, trackingNumber) => {
+const saveShippingLabel = async (authorization, trackingNumber) => {
   const url = `https://sandbox.urb-it.com/v4/deliveries/${trackingNumber}/shipping-label`;
 
   const headers = {
@@ -19,4 +19,4 @@ const getShippingLabel = async (authorization, trackingNumber) => {
   fs.writeFileSync(`./${trackingNumber}.zpl`, zpl);
 };
 
-export default getShippingLabel;
+export default saveShippingLabel;
