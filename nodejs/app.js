@@ -32,5 +32,5 @@ const init = async () => {
     return;
   }
 
-  await inti();
+  await init();
 })();
