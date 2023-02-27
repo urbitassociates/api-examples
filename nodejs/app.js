@@ -2,7 +2,7 @@ import createShipment from "./shipment.js";
 import getShippingLabel from "./labels.js";
 import dotenv from "dotenv";
 
-const inti = async () => {
+const init = async () => {
   const authorization = process.env.AUTHORIZATION;
   const clientId = process.env.CLIENT_ID;
 
