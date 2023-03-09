@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "b21c0394-2e9e-40fc-b145-92a29aa71e0f",
+		"name": "Urb-it Delivery API",
+		"description": "# Delivery API v4 postman collection\n\n## Authorization and API key\n\nThis collection set both `Authorization` and `x-api-key` headers for all it's requests. No need to set them for each request.\n\n## Necessary global environment variables\n\n* `X-Api-Key`\n* `Authorization` (including leading `Bearer`)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1169381"
+	},
+	"item": [
+		{
+			"name": "Create standard shipment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\": \"{{ClientId}}\",\r\n    \"reference_id\": {\r\n        \"data\": \"POSTMAN-{{$timestamp}}\",\r\n        \"description\": \"order ID\"\r\n    },\r\n    \"reference_id2\": {\r\n        \"data\": \"POSTMAN-{{$timestamp}}\",\r\n        \"description\": \"platform transaction ID\"\r\n    },\r\n    \"service_type\": \"STANDARD_DELIVERY\",\r\n    \"deliveries\": [\r\n        {\r\n            \"description\": \"Fashion\",\r\n            \"weight\": {\r\n                \"unit\": \"g\",\r\n                \"value\": 939\r\n            },\r\n            \"dimensions\": {\r\n                \"height\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 14\r\n                },\r\n                \"width\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 13\r\n                },\r\n                \"length\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 16\r\n                }\r\n            },\r\n            \"reference_id\": {\r\n                \"data\": \"Parcel-{{$timestamp}}-1\",\r\n                \"description\": \"parcel ID\"\r\n            },\r\n            \"reference_id2\": {\r\n                \"data\": \"Parcel-{{$timestamp}}-2\",\r\n                \"description\": \"TA platform package ID\"\r\n            }\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"address\": {\r\n            \"address_1\": \"Carrer de St. Antoni Maria Claret 167\",\r\n            \"postcode\": \"08025\",\r\n            \"city\": \"Barcelona\",\r\n            \"country_code\": \"ES\",\r\n            \"name\": \"Recinte Modernista de Sant Pau\"\r\n        },\r\n        \"contact\": {\r\n            \"name\": \"John Smith\",\r\n            \"phone_number\": \"+46702000000\",\r\n            \"email\": \"test@example.org\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"address\": {\r\n            \"address_1\": \"Carrer de Mallorca 401\",\r\n            \"postcode\": \"08013\",\r\n            \"city\": \"Barcelona\",\r\n            \"country_code\": \"ES\",\r\n            \"name\": \"La Sagrada Familia\"\r\n        },\r\n        \"contact\": {\r\n            \"name\": \"Brittany Lottie\",\r\n            \"phone_number\": \"+46700000000\",\r\n            \"email\": \"test@example.org\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/shipments",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"shipments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create next day shipment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\": \"{{ClientId}}\",\r\n    \"reference_id\": {\r\n        \"data\": \"POSTMAN-{{$timestamp}}\",\r\n        \"description\": \"order ID\"\r\n    },\r\n    \"reference_id2\": {\r\n        \"data\": \"POSTMAN-{{$timestamp}}\",\r\n        \"description\": \"platform transaction ID\"\r\n    },\r\n    \"service_type\": \"NEXT_DAY_DELIVERY\",\r\n    \"deliveries\": [\r\n        {\r\n            \"description\": \"Fashion\",\r\n            \"weight\": {\r\n                \"unit\": \"g\",\r\n                \"value\": 926\r\n            },\r\n            \"dimensions\": {\r\n                \"height\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 10\r\n                },\r\n                \"width\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 12\r\n                },\r\n                \"length\": {\r\n                    \"unit\": \"cm\",\r\n                    \"value\": 15\r\n                }\r\n            },\r\n            \"reference_id\": {\r\n                \"data\": \"Parcel-{{$timestamp}}-1\",\r\n                \"description\": \"parcel ID\"\r\n            },\r\n            \"reference_id2\": {\r\n                \"data\": \"Parcel-{{$timestamp}}-2\",\r\n                \"description\": \"TA platform package ID\"\r\n            }\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"address\": {\r\n            \"address_1\": \"Carrer de St. Antoni Maria Claret 167\",\r\n            \"postcode\": \"08025\",\r\n            \"city\": \"Barcelona\",\r\n            \"country_code\": \"ES\",\r\n            \"name\": \"Recinte Modernista de Sant Pau\"\r\n        },\r\n        \"contact\": {\r\n            \"name\": \"John Smith\",\r\n            \"phone_number\": \"+46702000000\",\r\n            \"email\": \"test@example.org\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"address\": {\r\n            \"address_1\": \"Carrer de Mallorca 401\",\r\n            \"postcode\": \"08013\",\r\n            \"city\": \"Barcelona\",\r\n            \"country_code\": \"ES\",\r\n            \"name\": \"La Sagrada Familia\"\r\n        },\r\n        \"contact\": {\r\n            \"name\": \"Brittany Lottie\",\r\n            \"phone_number\": \"+46700000000\",\r\n            \"email\": \"test@example.org\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/shipments",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"shipments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get shipment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains json\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Shipment number has value\", function () {\r",
+							"    pm.expect(jsonData.shipment_number).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Shipment has deliveries\", function () {\r",
+							"    pm.expect(jsonData.deliveries).to.be.an('array').that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Reference Id has value\", function () {\r",
+							"    pm.expect(jsonData.reference_id.data).to.not.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/shipments/{{shipment_number}}",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"shipments",
+						"{{shipment_number}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel shipment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/shipments/{{shipment_number}}",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"shipments",
+						"{{shipment_number}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create/Update webhook configuration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"webhooks\": [\r\n    {\r\n      \"event_type\": \"DELIVERED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"FAILED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"CANCELLED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"DAMAGED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"INBOUNDED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"EN_ROUTE_TO_DESTINATION_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    },\r\n    {\r\n      \"event_type\": \"RETURNED_EVENT\",\r\n      \"urls\": [\r\n        \"https://webhook.site/1234\"\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/webhooks",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"webhooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get webhook configuration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response contains secret\", function () {\r",
+							"    pm.expect(jsonData.secret).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains webhooks\", function () {\r",
+							"    pm.expect(jsonData.webhooks).to.be.an('array').that.is.not.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/webhooks",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"webhooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate postcode for client",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Postcode is valid\", function () {\r",
+							"    pm.expect(jsonData.valid).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/countries/{{CountryCode}}/postcodes/{{postcode}}?client_id={{ClientId}}",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"countries",
+						"{{CountryCode}}",
+						"postcodes",
+						"{{postcode}}"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{ClientId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const countryCode = pm.environment.get(\"CountryCode\");",
+					"if (!countryCode) {",
+					"    throw new Error(\"MISSING CountryCode IN ENV\");",
+					"}",
+					"",
+					"const clientId = pm.environment.get(\"ClientId\");",
+					"if (!clientId) {",
+					"    throw new Error(\"MISSING ClientId IN ENV\");",
+					"}",
+					"",
+					"builder = {};",
+					"testData = {};",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "slot_begin",
+			"value": ""
+		},
+		{
+			"key": "slot_end",
+			"value": ""
+		},
+		{
+			"key": "shipment_number",
+			"value": ""
+		},
+		{
+			"key": "tracking_number",
+			"value": ""
+		},
+		{
+			"key": "origin_address_1",
+			"value": ""
+		},
+		{
+			"key": "origin_address_2",
+			"value": ""
+		},
+		{
+			"key": "origin_postcode",
+			"value": ""
+		},
+		{
+			"key": "origin_city",
+			"value": ""
+		},
+		{
+			"key": "origin_country_code",
+			"value": ""
+		},
+		{
+			"key": "destination_address_1",
+			"value": ""
+		},
+		{
+			"key": "destination_address_2",
+			"value": ""
+		},
+		{
+			"key": "destination_postcode",
+			"value": ""
+		},
+		{
+			"key": "destination_city",
+			"value": ""
+		},
+		{
+			"key": "destination_country_code",
+			"value": ""
+		},
+		{
+			"key": "destination_time_day",
+			"value": ""
+		},
+		{
+			"key": "scope",
+			"value": ""
+		},
+		{
+			"key": "clientId",
+			"value": ""
+		},
+		{
+			"key": "postcode",
+			"value": ""
+		},
+		{
+			"key": "Postcode",
+			"value": ""
+		},
+		{
+			"key": "CountryCode",
+			"value": ""
+		},
+		{
+			"key": "ClientId",
+			"value": ""
+		}
+	]
+}
