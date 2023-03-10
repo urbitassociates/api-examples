@@ -3,8 +3,8 @@
 require_once '../vendor/autoload.php';
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 class Program
 {
@@ -57,8 +57,14 @@ class Program
             echo(">> ZPL saved in 'output' folder" . PHP_EOL);
             echo(PHP_EOL);
             echo("Bye bye 👋" . PHP_EOL);
+        } catch(RequestException $e) {
+            fwrite(STDERR, "Request failed" . PHP_EOL);
+            fwrite(STDERR, "Request: " . GuzzleHttp\Psr7\Message::toString($e->getRequest()) . PHP_EOL);
+            fwrite(STDERR, "Response: " . GuzzleHttp\Psr7\Message::toString($e->getResponse()) . PHP_EOL);
+        } catch (GuzzleException $e) {
+            fwrite(STDERR, "GuzzleException: " . $e->getMessage() . PHP_EOL);
         } catch (Exception $e) {
-            echo("An error occurred: " . $e->getMessage());
+            fwrite(STDERR, "Exception: " . $e->getMessage() . PHP_EOL);
         }
     }
 
