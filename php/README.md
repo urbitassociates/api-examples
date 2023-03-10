@@ -4,7 +4,6 @@ Console app using PHP demonstrating creating a shipment and getting a shipping l
 
 ## Requirements
 - PHP 8.1 or higher
-- Optionally Docker
 
 ## Prerequisites
 1. Copy `.env.template` to `.env`
@@ -13,11 +12,6 @@ Console app using PHP demonstrating creating a shipment and getting a shipping l
 ## Running the app on your machine
 1. Install dependencies `php composer.phar install`
 2. Start with `cd src && php index.php`
-
-## Running the app with Docker
-1. `docker build --target runner -t urb-it-php-demo .`
-2. `docker run -v $(pwd)/output:/app/output -it --rm --name running-urb-it-php-demo urb-it-php-demo`
-   - Feel free to change the output folder to your liking
 
 ## Sample output
 ```
