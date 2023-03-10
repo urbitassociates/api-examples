@@ -63,28 +63,22 @@ class Program
     }
 
     /**
-     * @throws Exception
+     * @throws Exception|GuzzleException
      */
     private function createShipment(): array
     {
         $data = $this->getShipmentData();
 
         $body = json_encode($data);
-        try {
-            $response = self::$httpClient->post('shipments', [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'body' => $body,
-            ]);
-        } catch (RequestException $e) {
-            throw new Exception("Error! " . $e->getMessage());
-        } catch (GuzzleException $e) {
-            throw new Exception("Error! " . $e->getMessage());
-        }
+        $response = self::$httpClient->post('shipments', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'body' => $body,
+        ]);
 
         if ($response->getStatusCode() !== 201) {
-            throw new Exception("Error! " . $response->getStatusCode());
+            throw new Exception("Error! Unexpected status code: " . $response->getStatusCode());
         }
 
         $json = json_decode($response->getBody(), true);
@@ -96,20 +90,14 @@ class Program
     }
 
     /**
-     * @throws Exception
+     * @throws Exception|GuzzleException
      */
     private function shippingLabel(string $trackingNumber): void
     {
-        try {
-            $response = self::$httpClient->get("deliveries/$trackingNumber/shipping-label");
-        } catch (RequestException $e) {
-            throw new Exception("Error! " . $e->getMessage());
-        } catch (GuzzleException $e) {
-            throw new Exception("Error! " . $e->getMessage());
-        }
+        $response = self::$httpClient->get("deliveries/$trackingNumber/shipping-label");
 
         if ($response->getStatusCode() !== 200) {
-            throw new Exception("Error! " . $response->getStatusCode());
+            throw new Exception("Error! Unexpected status code: " . $response->getStatusCode());
         }
 
         $output = $response->getBody()->getContents();
