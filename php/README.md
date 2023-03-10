@@ -26,3 +26,11 @@ Get shipping label 🏷️
 
 Bye bye 👋
 ```
+
+## Troubleshooting
+
+### Uncaught Dotenv\Exception\InvalidFileException: Failed to parse dotenv file. Encountered unexpected whitespace at [Bearer ...
+This is because you haven't wrapped the value of `AUTHORIZATION` in `.env` with quotes. It should look like this:
+```
+AUTHORIZATION='Bearer 123456....'
+```
