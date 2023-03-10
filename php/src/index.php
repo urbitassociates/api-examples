@@ -42,21 +42,21 @@ class Program
 
     public function start(): void
     {
-        echo("Create delivery 📦\n");
+        echo("Create delivery 📦" . PHP_EOL);
         try {
             $shipmentInformation = $this->createShipment();
             $shipmentNumber = $shipmentInformation[0];
             $trackingNumber = $shipmentInformation[1];
-            echo(">> Done!\n");
-            echo(">> shipment_number: $shipmentNumber\n");
-            echo(">> tracking_number: $trackingNumber\n");
-            echo("\n");
-            echo("Get shipping label 🏷️\n");
+            echo(">> Done!" . PHP_EOL);
+            echo(">> shipment_number: $shipmentNumber" . PHP_EOL);
+            echo(">> tracking_number: $trackingNumber" . PHP_EOL);
+            echo(PHP_EOL);
+            echo("Get shipping label 🏷️" . PHP_EOL);
             $this->shippingLabel($trackingNumber);
-            echo(">> Done! 🌟\n");
-            echo(">> ZPL saved in 'output' folder\n");
-            echo("\n");
-            echo("Bye bye 👋\n");
+            echo(">> Done! 🌟" . PHP_EOL);
+            echo(">> ZPL saved in 'output' folder" . PHP_EOL);
+            echo(PHP_EOL);
+            echo("Bye bye 👋" . PHP_EOL);
         } catch (Exception $e) {
             echo("An error occurred: " . $e->getMessage());
         }
