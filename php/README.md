@@ -3,7 +3,7 @@
 Console app using PHP demonstrating creating a shipment and getting a shipping label with the Urb-it Delivery API.
 
 ## Requirements
-- PHP 8.2 or higher
+- PHP 8.1 or higher
 - Optionally Docker
 
 ## Prerequisites
