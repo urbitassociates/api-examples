@@ -94,15 +94,8 @@ class Program
      */
     private function shippingLabel(string $trackingNumber): void
     {
-        $response = self::$httpClient->get("deliveries/$trackingNumber/shipping-label");
-
-        if ($response->getStatusCode() !== 200) {
-            throw new Exception("Error! Unexpected status code: " . $response->getStatusCode());
-        }
-
-        $output = $response->getBody()->getContents();
         $path = __DIR__ . '/../output/' . $trackingNumber . ".zpl";
-        file_put_contents($path, $output);
+        self::$httpClient->get("deliveries/$trackingNumber/shipping-label", ["sink" => $path]);
     }
 
     private function getShipmentData(): array
