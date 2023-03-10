@@ -34,3 +34,6 @@ This is because you haven't wrapped the value of `AUTHORIZATION` in `.env` with 
 ```
 AUTHORIZATION='Bearer 123456....'
 ```
+
+### PHP Warning:  require_once(../vendor/autoload.php): Failed to open stream: No such file or directory in /Users/.../src/index.php on line 3
+This is because you haven't installed the dependencies. Run `php composer.phar install` from the project root to install them.
