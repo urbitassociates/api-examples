@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b21c0394-2e9e-40fc-b145-92a29aa71e0f",
-		"name": "Urb-it Delivery API",
+		"name": "Urb-it Delivery API - Examples",
 		"description": "# Delivery API v4 postman collection\n\n## Authorization and API key\n\nThis collection set both `Authorization` and `x-api-key` headers for all it's requests. No need to set them for each request.\n\n## Necessary global environment variables\n\n* `X-Api-Key`\n* `Authorization` (including leading `Bearer`)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1169381"
