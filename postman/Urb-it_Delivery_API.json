@@ -310,6 +310,57 @@
 			"response": []
 		},
 		{
+			"name": "Get shipping label - pdf",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}"
+					},
+					{
+						"key": "Accept",
+						"value": "application/pdf",
+						"description": "Can be \"text/zpl\" or \"application/pdf\"",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://sandbox.urb-it.com/v4/deliveries/{{tracking_number}}/shipping-label?size=4x6",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"urb-it",
+						"com"
+					],
+					"path": [
+						"v4",
+						"deliveries",
+						"{{tracking_number}}",
+						"shipping-label"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "4x6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Validate postcode for client",
 			"event": [
 				{
