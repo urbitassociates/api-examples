@@ -16,6 +16,7 @@ The [Urb-it Delivery API](./postman/Urb-it_Delivery_API.json) postman collection
 
 - Create a shipment
 - Retrieve a shipment
+- Get shipping label
 - Cancel a shipment
 - Create a webhook configuration
 - Retrieve the webhook configuration
