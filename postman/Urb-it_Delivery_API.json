@@ -124,28 +124,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response contains json\", function () {\r",
-							"     pm.response.to.be.withBody;\r",
-							"     pm.response.to.be.json;\r",
-							"});\r",
-							"\r",
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test(\"Shipment number has value\", function () {\r",
-							"    pm.expect(jsonData.shipment_number).to.not.be.empty;\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Shipment has deliveries\", function () {\r",
-							"    pm.expect(jsonData.deliveries).to.be.an('array').that.is.not.empty;\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Reference Id has value\", function () {\r",
-							"    pm.expect(jsonData.reference_id.data).to.not.be.empty;\r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -183,9 +162,6 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});\r",
 							""
 						],
 						"type": "text/javascript"
@@ -270,15 +246,6 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test(\"Response contains secret\", function () {\r",
-							"    pm.expect(jsonData.secret).to.not.be.empty;\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response contains webhooks\", function () {\r",
-							"    pm.expect(jsonData.webhooks).to.be.an('array').that.is.not.empty;\r",
-							"});\r",
 							""
 						],
 						"type": "text/javascript"
@@ -376,11 +343,6 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test(\"Postcode is valid\", function () {\r",
-							"    pm.expect(jsonData.valid).to.be.true;\r",
-							"});\r",
 							""
 						],
 						"type": "text/javascript"
