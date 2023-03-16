@@ -22,4 +22,6 @@ The [Urb-it Delivery API](./postman/Urb-it_Delivery_API.json) postman collection
 - Retrieve the webhook configuration
 - Validate a postcode
 
+![Postman Collection](https://user-images.githubusercontent.com/351045/225658246-294d68e0-ad4c-47dc-9149-db574eab5f7d.png)
+
 Before making requests to any of the above endpoints, make sure to set the variables `Authorization` and `ClientId` in Postman [Environment](https://learning.postman.com/docs/sending-requests/managing-environments/).
