@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b21c0394-2e9e-40fc-b145-92a29aa71e0f",
+		"_postman_id": "8ee68c53-9561-478b-9361-b0bcbe3caeac",
 		"name": "Urb-it Delivery API - Examples",
 		"description": "# Delivery API v4 postman collection\n\n## Authorization and API key\n\nThis collection set both `Authorization` and `x-api-key` headers for all it's requests. No need to set them for each request.\n\n## Necessary global environment variables\n\n* `X-Api-Key`\n* `Authorization` (including leading `Bearer`)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1169381"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -377,6 +376,53 @@
 							"key": "client_id",
 							"value": "{{ClientId}}"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Webhook",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var body = CryptoJS.enc.Utf8.parse(pm.request.body);",
+							"var secret = pm.environment.get(\"webhookSecret\")",
+							"var hashHmacSHA256 = CryptoJS.HmacSHA256(body, secret);",
+							"var base64Sig = CryptoJS.enc.Base64.stringify(hashHmacSHA256);",
+							"pm.environment.set(\"requestSignature\", base64Sig);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-urbit-signature",
+						"value": "{{requestSignature}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"event\": {\n    \"event_type\": \"PICKED_UP_EVENT\",\n    \"event_process\": \"LAST_MILE\",\n    \"shipment_number\": \"216663222235\",\n    \"tracking_number\": \"216663222235-01\",\n    \"timestamp\": \"2018-01-28T19:43:00Z\",\n    \"reference_id\": {\n      \"description\": \"SequenceNumber\",\n      \"data\": \"REF-ABC\"\n    },\n    \"reference_id2\": {\n      \"description\": \"SequenceNumber\",\n      \"data\": \"REF-ABC\"\n    },\n    \"barcode\": \"7cf8ac0d-2af1-40a4-94f0\"\n  },\n  \"data\": {\n    \"comment\": null\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://webhook.example.com",
+					"protocol": "https",
+					"host": [
+						"webhook",
+						"example",
+						"com"
 					]
 				}
 			},
