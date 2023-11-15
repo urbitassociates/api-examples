@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using SampleWebhookService.Models.Generic;
 
 namespace SampleWebhookService.Models.Failed;
